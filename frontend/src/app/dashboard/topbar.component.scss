@@ -1,0 +1,104 @@
+:host {
+  --bg-card: #1a1d27;
+  --text-primary: #ffffff;
+  --text-muted: #6b7280;
+  --accent-green: #22c55e;
+}
+
+.topbar {
+  position: fixed;
+  left: 200px;
+  right: 0;
+  top: 0;
+  height: 76px;
+  background: #1a1d27;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.topbar__left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topbar__title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-primary);
+}
+
+.topbar__subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.search input {
+  width: 280px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 17, 23, 0.35);
+  color: var(--text-primary);
+  padding: 0 16px;
+  outline: none;
+}
+
+.search input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.bell {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bell__badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--accent-green);
+  color: #052e16;
+  font-weight: 900;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #1a1d27;
+}
+
+.quick-add {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 0;
+  cursor: pointer;
+  background: var(--accent-green);
+  color: #052e16;
+  font-weight: 900;
+}
+
+.quick-add:hover {
+  filter: brightness(0.97);
+}
+

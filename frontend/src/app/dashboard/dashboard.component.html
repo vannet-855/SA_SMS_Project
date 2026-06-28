@@ -1,0 +1,231 @@
+<div class="page" [class.loading]="loading">
+  <app-sidebar></app-sidebar>
+  <app-topbar></app-topbar>
+
+  <main class="content">
+    <section class="grid grid--4" aria-label="Statistics row 1">
+      <app-stat-card
+        label="TOTAL STUDENTS"
+        [value]="stats.totalStudents"
+        trend="↑ 4.2% from last term"
+        color="green"
+      ></app-stat-card>
+      <app-stat-card
+        label="TOTAL TEACHERS"
+        [value]="stats.totalTeachers"
+        trend="↑ 2 new this month"
+        color="green"
+      ></app-stat-card>
+      <app-stat-card
+        label="TOTAL CLASSES"
+        [value]="stats.totalClasses"
+        trend="↑ 3 new sections"
+        color="green"
+      ></app-stat-card>
+      <app-stat-card
+        label="TOTAL SUBJECTS"
+        [value]="stats.totalSubjects"
+        trend="↑ Stable"
+        color="green"
+      ></app-stat-card>
+    </section>
+
+    <section class="grid grid--4" aria-label="Statistics row 2">
+      <app-stat-card
+        label="FEES COLLECTED"
+        [value]="stats.feesCollected"
+        [currency]="true"
+        trend="↑ 12.3% this term"
+        color="green"
+      ></app-stat-card>
+      <app-stat-card
+        label="ACTIVE EXAMS"
+        [value]="stats.activeExams"
+        trend="↓ 2 ending today"
+        color="orange"
+      ></app-stat-card>
+      <app-stat-card
+        label="REPORTS GENERATED"
+        [value]="stats.reportsGenerated"
+        trend="↑ This week"
+        color="green"
+      ></app-stat-card>
+      <app-stat-card
+        label="ATTENDANCE RATE"
+        [value]="stats.attendanceRate"
+        trend="↓ 0.8% from last week"
+        color="red"
+        [suffix]="'%'"
+      ></app-stat-card>
+    </section>
+
+    <section class="row">
+      <div class="col col--8">
+        <div class="card">
+          <div class="card__header">
+            <div class="card__title">Recent Students</div>
+            <a class="card__link" href="#" (click)="$event.preventDefault()">View all →</a>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>STUDENT</th>
+                  <th>CLASS</th>
+                  <th>GENDER</th>
+                  <th>FEE STATUS</th>
+                  <th>ENROLLED</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of recentStudents">
+                  <td>
+                    <div class="student">
+                      <div class="student__avatar" [style.backgroundColor]="s.color" [style.borderColor]="s.color">{{ s.initials }}</div>
+
+                      <div>
+                        <div class="student__name">{{ s.name }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ s.class }}</td>
+                  <td>{{ s.gender }}</td>
+                  <td><span [class]="feeBadgeClass(s.feeStatus)">{{ s.feeStatus }}</span></td>
+
+                  <td>{{ s.enrolled }}</td>
+
+                  <td>
+                    <div class="actions">
+                      <button class="icon-btn" type="button" aria-label="View">👁</button>
+                      <button class="icon-btn" type="button" aria-label="Edit">✎</button>
+                      <button class="icon-btn" type="button" aria-label="Delete">🗑</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card card--spacer">
+          <div class="card__header">
+            <div class="card__title">Attendance by Class (Today)</div>
+            <a class="card__link" href="#" (click)="$event.preventDefault()">Full report →</a>
+          </div>
+
+          <div class="progress-list">
+            <div class="progress" *ngFor="let a of attendanceToday">
+              <div class="progress__meta">
+                <div class="progress__label">{{ a.class }} • {{ a.subject }}</div>
+
+              </div>
+
+
+              <div class="progress__right">{{ a.percentage }}%</div>
+              <div class="progress__bar">
+                <div [ngClass]="attendanceBarColor(a.percentage)" [style.width.%]="a.percentage"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col--4">
+        <div class="card">
+          <div class="card__header">
+            <div class="card__title">Quick Actions</div>
+          </div>
+
+          <div class="actions-list">
+            <div class="action-row action-row--green">
+              <span class="action-row__icon">＋</span>
+              <div>
+                <div class="action-row__label">Add Student</div>
+                <div class="action-row__sub">Register a new student</div>
+              </div>
+            </div>
+            <div class="action-row action-row--blue">
+              <span class="action-row__icon">＋</span>
+              <div>
+                <div class="action-row__label">Add Teacher</div>
+                <div class="action-row__sub">Assign teachers to subjects</div>
+              </div>
+            </div>
+            <div class="action-row action-row--orange">
+              <span class="action-row__icon">＋</span>
+              <div>
+                <div class="action-row__label">Create Exam</div>
+                <div class="action-row__sub">Schedule assessment</div>
+              </div>
+            </div>
+            <div class="action-row action-row--teal">
+              <span class="action-row__icon">＋</span>
+              <div>
+                <div class="action-row__label">Publish Timetable</div>
+                <div class="action-row__sub">Share class schedule</div>
+              </div>
+            </div>
+            <div class="action-row action-row--red">
+              <span class="action-row__icon">＋</span>
+              <div>
+                <div class="action-row__label">Generate Report</div>
+                <div class="action-row__sub">Create performance report</div>
+              </div>
+            </div>
+            <div class="action-row action-row--yellow">
+              <span class="action-row__icon">＋</span>
+              <div>
+                <div class="action-row__label">Send Announcement</div>
+                <div class="action-row__sub">Notify parents/students</div>
+              </div>
+            </div>
+            <div class="action-row action-row--purple">
+              <span class="action-row__icon">＋</span>
+              <div>
+                <div class="action-row__label">Create User</div>
+                <div class="action-row__sub">Add account to system</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card--spacer">
+          <div class="card__header">
+            <div class="card__title">Upcoming Exams</div>
+            <a class="card__link" href="#" (click)="$event.preventDefault()">Manage →</a>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table table--compact">
+              <thead>
+                <tr>
+                  <th>EXAM</th>
+                  <th>CLASS</th>
+                  <th>DATE</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let e of upcomingExams">
+                  <td>{{ e.name }}</td>
+                  <td>{{ e.class }}</td>
+                  <td>{{ e.date | date:'MMM d, y' }}</td>
+                  <td><span [class]="examStatusClass(e.status)">{{ e.status }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Local stat card component -->
+<ng-container *ngIf="false">
+  placeholder
+</ng-container>
+

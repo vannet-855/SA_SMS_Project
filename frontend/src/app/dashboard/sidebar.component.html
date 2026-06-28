@@ -1,0 +1,81 @@
+<aside class="sidebar">
+  <div class="sidebar__top">
+    <div class="brand">
+      <div class="brand__icon" aria-hidden="true"></div>
+      <div class="brand__text">
+        <div class="brand__name">EduTrack SMS</div>
+        <div class="brand__portal">ADMIN PORTAL</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav__section">
+      <div class="nav__label">MAIN</div>
+      <a
+        class="nav__item"
+        routerLinkActive="active"
+        *ngFor="let item of navMain"
+        [routerLink]="item.route"
+      >
+        <span class="nav__text">{{ item.label }}</span>
+        <span *ngIf="item.badge" class="nav__badge">{{ item.badge }}</span>
+      </a>
+    </div>
+
+    <div class="nav__section">
+      <div class="nav__label">ACADEMIC</div>
+      <a
+        class="nav__item"
+        routerLinkActive="active"
+        *ngFor="let item of navAcademic"
+        [routerLink]="item.route"
+      >
+        <span class="nav__text">{{ item.label }}</span>
+        <span *ngIf="item.badge" class="nav__badge nav__badge--green">{{ item.badge }}</span>
+      </a>
+    </div>
+
+    <div class="nav__section">
+      <div class="nav__label">FINANCE</div>
+      <a
+        class="nav__item"
+        routerLinkActive="active"
+        *ngFor="let item of navFinance"
+        [routerLink]="item.route"
+      >
+        <span class="nav__text">{{ item.label }}</span>
+      </a>
+    </div>
+
+    <div class="nav__section">
+      <div class="nav__label">SYSTEM</div>
+      <a
+        class="nav__item"
+        routerLinkActive="active"
+        *ngFor="let item of navSystem"
+        [routerLink]="item.route"
+      >
+        <span class="nav__text">{{ item.label }}</span>
+        <span *ngIf="item.badge" class="nav__badge nav__badge--blue">{{ item.badge }}</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="sidebar__bottom">
+    <div class="admin">
+      <div class="admin__avatar">{{ userInitials }}</div>
+      <div class="admin__meta">
+        <div class="admin__name">{{ userName }}</div>
+        <div class="admin__role">{{ userRole }}</div>
+      </div>
+    </div>
+
+    <button class="logout" type="button" aria-label="Logout" (click)="logout()">
+      <span class="logout__icon" aria-hidden="true">⏻</span>
+      <span class="logout__text">Logout</span>
+    </button>
+
+  </div>
+</aside>
+

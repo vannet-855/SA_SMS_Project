@@ -1,0 +1,176 @@
+<div class="page">
+  <div class="card" role="region" aria-label="EduTrack SMS Login">
+
+    <div class="version-badge">v2.0</div>
+
+    <!-- Brand -->
+    <header class="brand">
+      <div class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 3.4 2.8 9.3c-.5.33-.5 1.05 0 1.38l1.4.9v7.1c0 .67.54 1.21 1.21 1.21H9.6v-6.3c0-.67.54-1.21 1.21-1.21h2.38c.67 0 1.21.54 1.21 1.21v6.3h4.2c.67 0 1.21-.54 1.21-1.21v-7.1l1.4-.9c.5-.33.5-1.05 0-1.38L12 3.4Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">EduTrack SMS</div>
+        <div class="brand-subtitle">School Management System</div>
+      </div>
+    </header>
+
+    <!-- Welcome heading -->
+    <h1 class="welcome-heading">Welcome back</h1>
+    <p class="welcome-sub">Sign in to your account to continue</p>
+
+    <!-- Form -->
+    <form class="form" (ngSubmit)="onSubmit()">
+
+      <!-- Username -->
+      <div class="field">
+        <label class="label" for="username">Username / Email</label>
+        <div class="input-wrap">
+          <input
+            id="username"
+            name="username"
+            type="email"
+            class="input"
+            placeholder="admin@school.edu"
+            autocomplete="username"
+            [(ngModel)]="username"
+          />
+          <span class="input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="7.5" r="4.5"/>
+              <path d="M4 21c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="input-wrap">
+          <input
+            id="password"
+            name="password"
+            [type]="showPassword ? 'text' : 'password'"
+            class="input"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            [(ngModel)]="password"
+          />
+          <button
+            type="button"
+            class="input-icon clickable"
+            aria-label="Toggle password"
+            (click)="togglePassword()"
+          >
+            <ng-container *ngIf="showPassword; else hideIcon">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 3l18 18" stroke-linecap="round"/>
+                <path d="M10.58 10.58A3 3 0 0 0 12 15a3 3 0 0 0 2.42-4.42" stroke-linecap="round"/>
+                <path d="M9.88 5.08A10.43 10.43 0 0 1 12 5c7 0 11 7 11 7a18.4 18.4 0 0 1-3.19 4.31" stroke-linecap="round"/>
+                <path d="M6.1 6.1C3.6 8.16 2 12 2 12s4 7 10 7a10.43 10.43 0 0 0 4.12-.87" stroke-linecap="round"/>
+              </svg>
+            </ng-container>
+            <ng-template #hideIcon>
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </ng-template>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Remember me / Forgot -->
+      <div class="row">
+        <label class="remember">
+          <input
+            type="checkbox"
+            class="remember-checkbox"
+            [(ngModel)]="rememberMe"
+            name="remember"
+          />
+          <span class="remember-text">Remember me</span>
+        </label>
+        <a class="forgot" href="#" (click)="$event.preventDefault()">Forgot password?</a>
+      </div>
+
+      <div class="error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Buttons -->
+      <button class="btn btn-primary" type="submit" [disabled]="!isFormValid || isSubmitting">
+        <ng-container *ngIf="!isSubmitting; else loading">Sign In</ng-container>
+        <ng-template #loading>
+          <span class="spinner" aria-hidden="true"></span>
+          <span>Signing in...</span>
+        </ng-template>
+      </button>
+
+
+      <button class="btn btn-secondary" type="button" (click)="onReset()">
+        Reset Password
+      </button>
+
+      <!-- Role selector -->
+      <div class="role-section">
+        <div class="role-divider" aria-hidden="true"></div>
+        <div class="role-title">SIGN IN AS</div>
+        <div class="role-divider" aria-hidden="true"></div>
+
+      </div>
+
+      <div class="role-pills" role="radiogroup" aria-label="Select role">
+        <button
+          type="button"
+          class="role-pill role-admin"
+          [class.active]="selectedRole === 'Administrator'"
+          (click)="autofillRole('Administrator')"
+          role="radio"
+          [attr.aria-checked]="selectedRole === 'Administrator'"
+        >Administrator</button>
+
+        <button
+          type="button"
+          class="role-pill role-teacher"
+          [class.active]="selectedRole === 'Teacher'"
+          (click)="selectRole('Teacher')"
+          role="radio"
+          [attr.aria-checked]="selectedRole === 'Teacher'"
+        >Teacher</button>
+
+        <button
+          type="button"
+          class="role-pill role-student"
+          [class.active]="selectedRole === 'Student'"
+          (click)="selectRole('Student')"
+          role="radio"
+          [attr.aria-checked]="selectedRole === 'Student'"
+        >Student</button>
+
+        <button
+          type="button"
+          class="role-pill role-parent"
+          [class.active]="selectedRole === 'Parent / Guardian'"
+          (click)="selectRole('Parent / Guardian')"
+          role="radio"
+          [attr.aria-checked]="selectedRole === 'Parent / Guardian'"
+        >Parent / Guardian</button>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <span class="footer-muted">Need access?</span>
+        <a class="footer-link" href="#" (click)="$event.preventDefault()">Contact Administrator</a>
+      </footer>
+
+    </form>
+  </div>
+</div>
+
