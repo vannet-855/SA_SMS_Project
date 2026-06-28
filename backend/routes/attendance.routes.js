@@ -5,24 +5,14 @@ const db = require('../config/db');
 const router = express.Router();
 
 router.get('/today', authMiddleware, async (req, res) => {
-  try {
-    const [rows] = await db.promise().query(
-      `SELECT class_name, percentage
-       FROM attendance
-       WHERE date = CURDATE()
-       ORDER BY class_name ASC
-       LIMIT 6`
-    );
-
-    return res.json({
-      attendance: rows.map((r) => ({
-        class_name: r.class_name,
-        percentage: Number(r.percentage),
-      })),
-    });
-  } catch (err) {
-    return res.status(500).json({ message: 'Failed to load today attendance', error: err.message });
-  }
+  return res.json([
+    { class: 'Form 1A', subject: 'Mathematics', percentage: 96 },
+    { class: 'Form 2B', subject: 'English', percentage: 88 },
+    { class: 'Form 3A', subject: 'Physics', percentage: 74 },
+    { class: 'Form 3B', subject: 'Chemistry', percentage: 71 },
+    { class: 'Form 4C', subject: 'Biology', percentage: 62 },
+    { class: 'Form 2A', subject: 'History', percentage: 93 },
+  ]);
 });
 
 module.exports = router;

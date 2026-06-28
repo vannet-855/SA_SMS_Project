@@ -1,30 +1,24 @@
-# TODO - EduTrack SMS Admin Dashboard
+# TODO - Admin Dashboard UI + Data Fix
 
-- [x] Create Angular auth guard that checks `edutrack_token` in localStorage
-- [x] Update Angular routing (`app.routes.ts`) to match spec
-
-- [x] Implement Angular login integration (POST /api/auth/login, store JWT, navigate to /dashboard)
-
-
-
-
+## Backend (hardcoded endpoints + routing)
+- [ ] Update `backend/routes/dashboard.routes.js` to return hardcoded stats (JWT protected).
+- [ ] Update `backend/routes/student.routes.js` to return hardcoded recent students array (JWT protected).
+- [ ] Update `backend/routes/attendance.routes.js` to return hardcoded today attendance array (JWT protected).
+- [ ] Update `backend/routes/exam.routes.js` to return hardcoded upcoming exams array (JWT protected).
+- [x] Update `backend/server.js` to mount the above routes under `/api/dashboard`, `/api/students`, `/api/attendance`, `/api/exams`.
 
 
-- [ ] Implement Angular Dashboard UI: `DashboardComponent`, `SidebarComponent`, `TopbarComponent`, `dashboard.service.ts`, styling
-- [x] Implement backend JWT middleware (`middleware/auth.middleware.js`)
-- [x] Update backend auth controller to return JWT on login
+## Frontend (pixel-perfect UI + API field matching)
+- [ ] Update `frontend/src/app/dashboard/dashboard.service.ts` interfaces + parsing to match the hardcoded payload shapes.
+- [ ] Update `frontend/src/app/dashboard/dashboard.component.ts` mapping helpers and models.
+- [ ] Rebuild `frontend/src/app/dashboard/dashboard.component.html` to match the Figma spec (layout + table + pills + actions).
+- [ ] Rebuild `frontend/src/app/dashboard/dashboard.component.scss` to use the exact CSS variables and dark theme spec.
+- [ ] Update `frontend/src/app/dashboard/sidebar.component.ts/html/scss` to match the sidebar spec (220px, active/hover, badges, bottom admin block, logout button).
+- [ ] Update `frontend/src/app/dashboard/topbar.component.ts/html/scss` to match the topbar spec (64px height, search + bell badge + quick add).
 
-- [x] Add backend routes: dashboard stats, recent students, attendance today, upcoming exams
+## Validation
+- [x] Start backend and verify endpoints return correct JSON.
 
-- [x] Mount backend routes in `backend/app.js`
-
-- [x] Add backend `.env` with DB + JWT settings
-- [x] Add DB schema + seed data in `database/schema.sql`
-
-
-
-
-
-- [x] Run backend + build frontend to verify no TS/JS errors
-
+- [ ] Start frontend and verify dashboard loads with non-zero stats.
+- [ ] Visual check: status pills, bar colors thresholds, spacing/radii/borders.
 

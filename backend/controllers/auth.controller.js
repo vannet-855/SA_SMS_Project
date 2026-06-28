@@ -1,53 +1,43 @@
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
-
+exports.login = async (req, res) => {
   try {
-    const results = await db.promise().query(
-      'SELECT * FROM users WHERE email=? AND password=?',
+    const { email, password } = req.body;
+
+    console.log('Login attempt:', email, password);
+
+    const [rows] = await db.query(
+      'SELECT * FROM users WHERE email = ? AND password = ?',
       [email, password]
     );
 
-    // Debug logging (safe to remove later)
-    // eslint-disable-next-line no-console
-    console.log('AUTH_LOGIN_QUERY', { email, password, results });
+    console.log('DB rows:', rows);
 
-    if (!results || results.length === 0) {
-      // eslint-disable-next-line no-console
-      console.log('AUTH_LOGIN_NO_RESULTS');
+    if (!rows || rows.length === 0) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const user = results[0];
+    const user = rows[0];
 
     const token = jwt.sign(
-      {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: '1d' }
+      { expiresIn: '8h' }
     );
 
-    return res.json({
+    return res.status(200).json({
       token,
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role,
-      },
+        role: user.role
+      }
     });
+
   } catch (err) {
-    return res.status(500).json({ message: 'Login failed', error: err.message });
+    console.error('Login error:', err);
+    return res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
-
-
-module.exports = { login };
-
-
